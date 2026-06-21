@@ -1,26 +1,6 @@
-# ============================================================
-# Course: Data Analysis | ISTU Baikal School of BRICS
-# Practice 4 – Task 4
-# R version: 4.5.3 (2026-03-11 ucrt)
-# Author: [Your Name]
-# Date: 2026-04-28
-# ============================================================
-# Task:
-#   - Correlation analysis between hormone variables
-#     (permutation-based Spearman, significance table)
-#   - Regression analysis hormone1 ~ hormone2 (5 model types, BIC selection)
-#   - Logistic regression: predict binary outcome using hormone variables
-#     (AIC/BIC comparison, odds ratios, ROC/AUC)
-# ============================================================
-
-# ---------- 0. Load data ------------------------------------
 data <- read.csv("data_for_analysis.csv")
 data$outcome <- as.factor(data$outcome)
 summary(data)
-
-# ============================================================
-# PART 1: NORMALITY ASSESSMENT
-# ============================================================
 
 # Shapiro-Wilk test (n < 5000 requirement met)
 shapiro.test(data$hormone1)  # W = 0.579, p < 2.2e-16 -> non-normal
@@ -39,10 +19,6 @@ qqnorm(data$hormone1, main = "Q-Q Plot: hormone1")
 qqline(data$hormone1, col = "red", lwd = 2)
 par(mfrow = c(1, 1))
 # -> Save as: plot_histogram_qqplot_hormone1.png
-
-# ============================================================
-# PART 2: CORRELATION ANALYSIS (Spearman + Permutation test)
-# ============================================================
 
 # Standard Spearman: hormone1 vs hormone2
 spearman_result <- cor.test(data$hormone1, data$hormone2, method = "spearman")
@@ -102,10 +78,6 @@ for (v in c("hormone1","hormone2","hormone3","hormone4")) {
 print(corr_table)
 # hormone2 shows significant association with outcome (rho=0.082, p=0.005)
 
-# ============================================================
-# PART 3: VISUALIZATION – hormone1 vs hormone2
-# ============================================================
-
 data_sorted <- data[order(data$hormone2), ]
 plot(data_sorted$hormone2, data_sorted$hormone1,
      main = "hormone1 vs hormone2",
@@ -115,10 +87,6 @@ lines(data_sorted$hormone2, data_sorted$hormone1, col = "lightgray")
 abline(lm(hormone1 ~ hormone2, data = data_sorted), col = "red", lwd = 2)
 legend("topleft", legend = "Linear fit", col = "red", lwd = 2)
 # -> Save as: plot_scatter_hormone1_hormone2.png
-
-# ============================================================
-# PART 4: REGRESSION ANALYSIS – hormone1 ~ hormone2
-# ============================================================
 
 df <- data[order(data$hormone2), ]
 
@@ -158,10 +126,6 @@ legend("topright",
        legend = paste("Linear  R² =", round(summary(model_linear)$r.squared, 4)),
        col = "blue", lwd = 2)
 # -> Save as: plot_regression_hormone1_hormone2.png
-
-# ============================================================
-# PART 5: LOGISTIC REGRESSION – outcome ~ hormones
-# ============================================================
 
 data <- data[!is.na(data$outcome), ]
 
@@ -221,9 +185,6 @@ print(exp(cbind(OR = coef(model_logit_2), confint(model_logit_2))))
 # hormone1: OR = 0.894 [0.755–1.024] -> slight protective effect, not significant
 # hormone2: OR = 1.001 [1.000–1.001] -> marginal positive effect
 
-# ============================================================
-# RESULTS SUMMARY
-# ============================================================
 cat("\n========================================================\n")
 cat("TASK 4 – RESULTS SUMMARY\n")
 cat("========================================================\n")
