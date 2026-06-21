@@ -1,21 +1,7 @@
 # Practice 4 – Statistical Analysis (Correlation & Regression)
 
 **Course:** Data Analysis  
-**Institution:** Irkutsk National Research Technical University, Baikal School of BRICS  
-**Programme:** 09.04.02 Information Systems and Technology — Information Technologies, Networks and Big Data  
-**Instructor:** Atalyan Alina Valerievna  
-**Date:** 2026-04-28  
-
----
-
-## Assignment (Task 4)
-
-Using the dataset `data_for_analysis`:
-
-1. Perform **correlation analysis** between other variables (not lipids1–lipids4 as in the practice example)
-2. Produce a table of **correlation coefficients with significance** assessed via the **permutation method**
-3. Perform **regression analysis** between selected variables; select the best model by **BIC**
-4. Fit **logistic regression** models using **hormone variables** to predict the binary `outcome`; compare model performance via **AIC/BIC**, compute **odds ratios**, and summarise results
+**Institution:** Irkutsk National Research Technical University, Baikal School of BRICS
 
 ---
 
@@ -54,12 +40,6 @@ Using the dataset `data_for_analysis`:
 - **Permutation-based Spearman** (`perm.relation`, R = 10 000): `hormone1` vs `hormone2`, `hormone3`, `hormone4`
 - Spearman table: all four hormones vs `outcome`
 
-| Pair | ρ | p (permutation) | Significant? |
-|------|---|-----------------|--------------|
-| hormone1 vs hormone2 | 0.175 | 0.0002 | ✅ Yes |
-| hormone1 vs hormone3 | −0.007 | 0.816 | ❌ No |
-| hormone1 vs hormone4 | 0.018 | 0.529 | ❌ No |
-
 ### 3 · Regression Analysis – `hormone1 ~ hormone2`
 Five model types compared by **BIC** (lower = better):
 
@@ -71,9 +51,9 @@ Five model types compared by **BIC** (lower = better):
 | 4 | Polynomial 3rd degree | 0.0126 | 4 210 |
 | 5 | Log-transform | 0.0000 | 55 115 |
 
-**Best model:** exponential (log-linear). Note: R² ≈ 0.012 — hormone2 explains only ~1.2% of hormone1 variance; the relationship is weak but statistically present.
+**Best model:** exponential (log-linear)
 
-### 4 · Logistic Regression – `outcome ~ hormones`
+### 4 · Logistic Regression
 
 Three models:
 
@@ -83,10 +63,6 @@ Three models:
 | **model_logit_2** | hormone1 + hormone2 | **927.9** | 943.0 |
 | model_logit_all | hormone1–4 | 928.7 | 954.0 |
 
-- **Stepwise selection (AIC, both directions):** final model = `outcome ~ hormone1 + hormone2 + hormone4` (AIC = 926.72)
-- **Confusion matrix** (threshold 0.5): model classifies all observations as class 0 — reflects severe class imbalance (987 negative vs 160 positive)
-- **AUC = 0.554** — weak discriminative ability; hormones 1–4 are poor predictors of this outcome
-- **Odds ratios (model_logit_2):**
 
 | Term | OR | 95% CI |
 |------|----|--------|
@@ -107,4 +83,3 @@ Neither predictor reaches conventional significance (p < 0.05), though hormone2 
 | `plot_scatter_hormone1_hormone2.png` | Scatter plot with linear fit (correlation visualisation) |
 | `plot_regression_hormone1_hormone2.png` | Regression scatter plot with fitted linear line |
 | `plot_ROC_curve.png` | ROC curve for model_logit_2 (AUC = 0.554) |
-| `README.md` | This file |
