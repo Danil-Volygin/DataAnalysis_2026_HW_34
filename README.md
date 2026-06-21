@@ -5,18 +5,6 @@
 
 ---
 
-## Dataset
-
-| Field | Value |
-|-------|-------|
-| **Name** | `data_for_analysis` |
-| **Source** | Internal company database (provided for course) |
-| **Size** | 1 148 observations × 31 variables |
-| **Format** | CSV |
-| **Key variables used** | `outcome` (binary: 0/1, presence of tumour), `hormone1`–`hormone4` (continuous, hormone level measurements) |
-
----
-
 ## R Environment
 
 | Item | Version |
